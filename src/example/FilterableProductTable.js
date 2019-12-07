@@ -61,22 +61,37 @@ class FilterableProductTable extends Component {
 
   render() {
     const PRODUCTS = this.getProducts();
-
-    return (
-      <>
-        <SearchBar
-          onCheckBoxChange={this.handleCheckBox}
-          onInputChange={this.handleInput}
-          checked={this.state.checkbox}
-          text={this.state.text}
-        />
-        <ProductTable
-          products={PRODUCTS}
-          checkbox={this.state.checkbox}
-          text={this.state.text}
-        />
-      </>
+    return React.createElement(
+      React.Fragment,
+      null,
+      React.createElement(SearchBar, {
+        onCheckBoxChange: this.handleCheckBox,
+        onInputChange: this.handleInput,
+        checked: this.state.checkbox,
+        text: this.state.text
+      }),
+      React.createElement(ProductTable, {
+        products: PRODUCTS,
+        checkbox: this.state.checkbox,
+        text: this.state.text
+      })
     );
+
+    // return (
+    //   <>
+    //     <SearchBar
+    //       onCheckBoxChange={this.handleCheckBox}
+    //       onInputChange={this.handleInput}
+    //       checked={this.state.checkbox}
+    //       text={this.state.text}
+    //     />
+    //     <ProductTable
+    //       products={PRODUCTS}
+    //       checkbox={this.state.checkbox}
+    //       text={this.state.text}
+    //     />
+    //   </>
+    // );
   }
 }
 
