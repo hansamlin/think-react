@@ -1,25 +1,40 @@
 import React from "react";
 
-class TodoInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
+export default function TodoInput(props) {
+  function handleChange(e) {
+    props.handleOnChange(e);
   }
 
-  handleChange(e) {
-    this.props.handleOnChange(e);
-  }
-
-  render() {
-    return (
-      <input
-        type="text"
-        placeholder="Add todo..."
-        onChange={this.handleChange}
-        value={this.props.value}
-      />
-    );
-  }
+  return (
+    <input
+      type="text"
+      placeholder="Add todo..."
+      onChange={handleChange}
+      value={props.value}
+    />
+  );
 }
 
-export default TodoInput;
+// class TodoInput extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.handleChange = this.handleChange.bind(this);
+//   }
+
+//   handleChange(e) {
+//     this.props.handleOnChange(e);
+//   }
+
+//   render() {
+//     return (
+//       <input
+//         type="text"
+//         placeholder="Add todo..."
+//         onChange={this.handleChange}
+//         value={this.props.value}
+//       />
+//     );
+//   }
+// }
+
+// export default TodoInput;
