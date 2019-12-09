@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Example() {
   const [count, setCount] = useState(5);
+  useEffect(() => {
+    document.title = count;
+  });
 
   function handleSetCount() {
     // console.log(reset);
