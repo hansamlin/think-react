@@ -30,6 +30,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-immutable": "^1.0.0"
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-react-hooks": "^2.3.0"
   }
 }
