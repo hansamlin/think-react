@@ -10,10 +10,10 @@ import "./index.scss";
 // import Todo from "./todoListUseRef/Todo";
 import Todo from "./todoList/Todo";
 // import First from "./Hooks/First";
+// import Count from "./Hooks/Count";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<Todo />, document.getElementById("root"));
-// ReactDOM.render(<First />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

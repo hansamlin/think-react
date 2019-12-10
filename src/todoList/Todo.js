@@ -1,34 +1,67 @@
 import React, { useState } from "react";
 import TodoInput from "./TodoInput";
+import "./todo.scss";
+
+function Row({ value, index, onHandleComplete, isComplete, onHandleDelete }) {
+  const handleComplete = () => onHandleComplete(index);
+  const handleDelete = () => onHandleDelete(index);
+  // console.log(isComplete)
+  return (
+    <li style={{ textDecoration: isComplete ? "line-through" : "" }}>
+      {value}
+      <button onClick={handleComplete}>Complete</button>
+      <button onClick={handleDelete}>X</button>
+    </li>
+  );
+}
 
 export default function Todo() {
   const [value, setValue] = useState("");
   const [list, setList] = useState([]);
 
-  function handleChange(e) {
+  const handleChange = e => {
     setValue(e.target.value);
-  }
+  };
 
   function handleClick() {
     if (value) {
-      list.push(<li key={value}>{value}</li>);
-      setList(list);
+      const newList = [...list];
+      setList([...newList, { value, isComplete: false }]);
       setValue("");
     }
+  }
+
+  function handleComplete(index) {
+    const newList = [...list];
+    newList[index].isComplete = true;
+    setList(newList);
+  }
+
+  function handleDelete(index) {
+    const newList = [...list];
+    newList.splice(index, 1);
+    setList(newList);
   }
 
   return (
     <>
       <React.StrictMode>
-        <TodoInput handleOnChange={handleChange} value={value} />
-        {/* <input
-          type="text"
-          placeholder="Add todo..."
-          onChange={handleChange}
-          value={value}
-        /> */}
+        <TodoInput onHandleOnChange={handleChange} value={value} />
         <button onClick={handleClick}>Add</button>
-        <ul>{list}</ul>
+        <ul>
+          {list.map((item, index) => {
+            return (
+              <Row
+                key={index}
+                index={index}
+                value={item.value}
+                onHandleComplete={handleComplete}
+                onHandleDelete={handleDelete}
+                isComplete={item.isComplete}
+              />
+            );
+          })}
+        </ul>
       </React.StrictMode>
     </>
   );

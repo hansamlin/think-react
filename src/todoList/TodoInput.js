@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function TodoInput(props) {
+export default function TodoInput({ onHandleOnChange, value }) {
   function handleChange(e) {
-    props.handleOnChange(e);
+    onHandleOnChange(e);
   }
 
   return (
@@ -10,7 +10,7 @@ export default function TodoInput(props) {
       type="text"
       placeholder="Add todo..."
       onChange={handleChange}
-      value={props.value}
+      value={value}
     />
   );
 }
