@@ -3,43 +3,55 @@ import "./img.scss";
 
 export default function Girl() {
   const [img, setImg] = useState([]);
-  const [num, setNum] = useState(10);
-  const [search, setSearch] = useState(1);
-  // const [url, setUrl] = useState(
-  // "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/4/1"
-  // );
-
-  // function getRandomInt(max) {
-  //   return setTimeout(() => {
-  //     return setNum(Math.floor(Math.random() * Math.floor(max)));
-  //   }, 10);
-  // }
+  const [num, setNum] = useState(1);
+  const [url, setUrl] = useState(
+    "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/4/1"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(
-        `http://gank.io/api/data/%E7%A6%8F%E5%88%A9/4/${search}`
-      );
+      setIsError(false);
+      setIsLoading(true);
 
-      res
-        .json()
-        .then(res => setImg(res.results))
-        .catch(err => console.log(err));
+      try {
+        const res = await fetch(url);
+        const resJson = await res.json();
+        setImg(resJson.results);
+      } catch (err) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
     }
 
     fetchData();
-  }, [search]);
+  }, [url]);
 
   return (
     <div>
       <input type="text" value={num} onChange={e => setNum(e.target.value)} />
-      <button type="button" onClick={() => setSearch(num)}>
+      <button
+        type="button"
+        onClick={() =>
+          setUrl(`http://gank.io/api/data/%E7%A6%8F%E5%88%A9/4/${num}`)
+        }
+      >
         Search
       </button>
-      <br/>
-      {img.map((item, index) => {
-        return <img src={item.url} alt={index} key={item._id} />;
-      })}
+
+      <br />
+
+      {isError && <div>Something wrong...</div>}
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        img.map((item, index) => {
+          return <img src={item.url} alt={index} key={item._id} />;
+        })
+      )}
     </div>
   );
 }
