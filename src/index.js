@@ -13,10 +13,10 @@ import "./index.scss";
 // import Count from "./Hooks/Count";
 // import Girl from "./fetch/Girl";
 // import Girl from "./axios/Girl";
-import FromEvent from './rxjs/fromEvent';
+import Search from './rxjs/debounceTime/Search';
 import * as serviceWorker from "./serviceWorker";
 
-ReactDOM.render(<FromEvent />, document.getElementById("root"));
+ReactDOM.render(<Search />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
