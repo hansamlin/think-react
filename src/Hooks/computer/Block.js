@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { HandleContext } from "./handle-context";
+
 const Div = styled.div`
   background: rgb(86, 82, 83);
   color: #ffffff;
@@ -15,7 +17,40 @@ const Div = styled.div`
 `;
 
 const Block = ({ children }) => {
-  return <Div>{children}</Div>;
+  const {
+    handleSetNum,
+    handleReset,
+    handleOperator,
+    handleResult
+  } = useContext(HandleContext);
+
+  let handle;
+
+  switch (children) {
+    case "C":
+      handle = handleReset;
+      break;
+    case "+":
+      handle = handleOperator;
+      break;
+    case "-":
+      handle = handleOperator;
+      break;
+    case "*":
+      handle = handleOperator;
+      break;
+    case "/":
+      handle = handleOperator;
+      break;
+    case "=":
+      handle = handleResult;
+      break;
+    default:
+      handle = handleSetNum;
+      break;
+  }
+
+  return <Div onClick={handle}>{children}</Div>;
 };
 
 export default Block;

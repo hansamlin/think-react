@@ -7,10 +7,10 @@ const Div = styled.div`
   text-align: right;
 `;
 
-const Text = () => {
+const Text = ({ text }) => {
   return (
     <Div>
-      <span type="text">0</span>
+      <span>{text}</span>
     </Div>
   );
 };
