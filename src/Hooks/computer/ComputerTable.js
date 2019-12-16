@@ -4,6 +4,11 @@ import Text from "./Text";
 import CalcutionTable from "./CalculationTable";
 import { HandleContext } from "./handle-context";
 import ErrorBoundary from "../../ErrorBoundary";
+import add from "lodash/add";
+import subtract from "lodash/subtract";
+import mutiply from "lodash/multiply";
+import divide from "lodash/divide";
+import eq from "lodash/eq";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -16,13 +21,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ComputerTable = () => {
-  const [calculate, setCalculate] = useState({ x: 0, y: 0, operator: "" });
   const [text, setText] = useState(0);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [operator, setOperator] = useState("");
   const [result, setResult] = useState(0);
 
   const handleOperator = e => {
-    const newItem = { ...calculate, operator: e.target.innerHTML };
-    setCalculate(newItem);
+    setOperator(e.target.innerHTML);
   };
 
   const handleSetNum = e => {
@@ -34,81 +40,69 @@ const ComputerTable = () => {
       return num * 10 + value;
     };
 
-    if (String(calculate.operator).length === 0) {
-      const x = setNum(calculate.x);
-      setCalculate({ ...calculate, x });
+    if (operator.length === 0) {
+      const newX = setNum(x);
+      setX(newX);
     } else {
-      const y = setNum(calculate.y);
-      setCalculate({ ...calculate, y });
+      const newY = setNum(y);
+      setY(newY);
     }
   };
 
   const handleReset = () => {
-    setCalculate({ x: 0, y: 0, operator: "" });
+    setX(0);
+    setY(0);
+    setOperator("");
+    setResult(0);
   };
 
   const handleResult = () => {
     let result;
-    const x = calculate.x;
-    const y = calculate.y;
-    const operator = calculate.operator;
 
     switch (operator) {
       case "+":
-        result = x + y;
+        result = add(x, y);
         break;
       case "-":
-        result = x - y;
+        result = subtract(x, y);
         break;
       case "*":
-        result = x * y;
+        result = mutiply(x, y);
         break;
       case "/":
-        result = x / y;
+        result = divide(x, y);
         break;
       default:
         result = x + y;
         break;
     }
 
-    setCalculate({ x: 0, y: 0, operator: "" });
+    handleReset();
     setResult(result);
   };
 
-  //   useEffect(() => {
-  //   setCalculate(result);
-  // }, [result]);
+  useEffect(() => {
+    let value;
+    if (eq(y, 0)) {
+      if (eq(operator.length, 0)) {
+        if (eq(x, 0)) {
+          value = 0;
+        } else {
+          value = x;
+        }
+      } else {
+        value = String(x) + operator;
+      }
+    } else {
+      value = String(x) + operator + String(y);
+    }
+    setText(value);
+  }, [x, y, operator]);
 
   useEffect(() => {
-    let span;
-    const item = { ...calculate };
-    Object.values(item).forEach((value, index) => {
-      console.log(value);
-      if (item.x === 0) {
-        setText(0);
-        return;
-      }
+    setText(result);
+  }, [result]);
 
-      // if (item.operator.length > 0) {
-
-      // }
-
-      if (item.y === 0) {
-        return;
-      }
-
-      if (value === 0 || value.length === 0) {
-        return;
-      }
-      console.log(span);
-
-      return (span += String(value));
-    });
-
-
-  }, [calculate]);
-
-  console.log("result", result, calculate);
   const handle = {
     handleOperator,
     handleSetNum,
