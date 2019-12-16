@@ -6,6 +6,8 @@ import CalcutionTable from "./CalculationTable";
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   margin: 0;
   padding: 0;
 }

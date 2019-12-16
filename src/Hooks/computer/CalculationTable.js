@@ -1,11 +1,11 @@
 import React from "react";
 import Block from "./Block";
-import styled from "styled-components";
+// import styled from "styled-components";
 
-const Tr = styled.div`
-  width: 100vw;
-  height: calc(100vh / 5);
-`;
+// const Tr = styled.div`
+//   width: 100vw;
+//   height: calc(100vh / 5);
+// `;
 
 const CalcutionTable = () => {
   const block = [
@@ -15,13 +15,16 @@ const CalcutionTable = () => {
     ["C", 0, "=", "+"]
   ];
   return block.map((item, index) => {
-    return (
-      <Tr key={index}>
-        {item.map((block, index) => {
-          return <Block key={index}>{block}</Block>;
-        })}
-      </Tr>
-    );
+    return item.map((block, index) => {
+      return <Block key={index}>{block}</Block>;
+    })
+    // return (
+    //   <Tr key={index}>
+    //     {item.map((block, index) => {
+    //       return <Block key={index}>{block}</Block>;
+    //     })}
+    //   </Tr>
+    // );
   });
 };
 
