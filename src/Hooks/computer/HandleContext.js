@@ -70,24 +70,21 @@ const HandleContext = ({ children }) => {
 
   useEffect(() => {
     if (x) {
-      console.log("effect x, y, operator");
-      let value;
-      if (eq(y, 0)) {
-        if (eq(operator.length, 0)) {
-          if (eq(x, 0)) {
-            value = 0;
-          } else {
-            value = x;
-          }
-        } else {
-          value = String(x) + operator;
-        }
-      } else {
-        value = String(x) + operator + String(y);
-      }
-      setText(value);
+      setText(x);
     }
-  }, [x, y, operator]);
+  }, [x]);
+
+  useEffect(() => {
+    if (operator) {
+      setText(prevText => setText(String(prevText) + operator));
+    }
+  }, [operator]);
+
+  useEffect(() => {
+    if (y) {
+      setText(prevText => setText(prevText + String(y)));
+    }
+  }, [y]);
 
   useEffect(() => {
     if (result) {
