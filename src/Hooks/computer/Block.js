@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { HandleContext } from "./handle-context";
+import { Context } from "./handle-context";
 
 const Div = styled.div`
   background: rgb(86, 82, 83);
   color: #ffffff;
   display: inline-block;
-  width: calc(100vw / 4);
+  width: calc(100% / 4);
   height: calc(100vh / 5);
   line-height: calc(100vh / 5);
   text-align: center;
@@ -18,11 +18,11 @@ const Div = styled.div`
 
 const Block = ({ children }) => {
   const {
+    handleOperator,
     handleSetNum,
     handleReset,
-    handleOperator,
     handleResult
-  } = useContext(HandleContext);
+  } = useContext(Context);
 
   let handle;
 
@@ -49,7 +49,7 @@ const Block = ({ children }) => {
       handle = handleSetNum;
       break;
   }
-
+  console.log("render Block");
   return <Div onClick={handle}>{children}</Div>;
 };
 

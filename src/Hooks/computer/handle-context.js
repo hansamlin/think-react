@@ -1,5 +1,3 @@
 import React from "react";
 
-export const HandleContext = React.createContext({
-  handle: () => {}
-});
+export const Context = React.createContext();
