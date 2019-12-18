@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "./handle-context";
+import isNumber from "lodash/isNumber";
 
 const Div = styled.div`
-  background: rgb(86, 82, 83);
+  background: ${props => (props.orange ? "#fd602f" : "rgb(86, 82, 83)")};
   color: #ffffff;
   display: inline-block;
   width: calc(100% / 4);
@@ -26,11 +27,12 @@ const Block = ({ value }) => {
         onClick={e =>
           setAction({ type: value.type, target: e.target.innerHTML })
         }
+        orange={isNumber(value.str) ? false : true}
       >
         {value.str}
       </Div>
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return memoDiv;
