@@ -1,118 +1,107 @@
-import React, { useState, useEffect, useCallback } from "react";
-import eq from "lodash/eq";
-import add from "lodash/add";
-import subtract from "lodash/subtract";
-import mutiply from "lodash/multiply";
-import divide from "lodash/divide";
+import React, { useState, useEffect } from "react";
 import { Context } from "./handle-context";
 
-const HandleContext = ({ children }) => {
+const calculate = (operator, arr) => {
+  switch (operator) {
+    case "+":
+      return arr.reduce((accumulator, current) => accumulator + current);
+    case "-":
+      return arr.reduce((accumulator, current) => accumulator - current);
+    case "*":
+      return arr.reduce((accumulator, current) => accumulator * current);
+    default:
+      return arr.reduce((accumulator, current) => accumulator / current);
+  }
+};
+
+const useEffectText = () => {
   const [text, setText] = useState(0);
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
-  const [operator, setOperator] = useState("");
-  const [result, setResult] = useState(0);
+  const [action, setAction] = useState({ type: "", target: "" });
 
-  const handleOperator = useCallback(e => {
-    setOperator(e.target.innerHTML);
-    console.log("handleOperator");
-  }, []);
-
-  const handleSetNum = useCallback(
-    e => {
-      const value = parseInt(e.target.innerHTML);
-      console.log("handleSetNum");
-      const setNum = num => {
-        if (value === 0) {
-          return num * 10;
+  useEffect(() => {
+    if (action.type) {
+      switch (action.type) {
+        case "reset": {
+          setText(0);
+          break;
         }
-        return num * 10 + value;
-      };
 
-      if (eq(operator.length, 0)) {
-        const newX = setNum(x);
-        setX(newX);
-      } else {
-        const newY = setNum(y);
-        setY(newY);
+        case "=": {
+          setText(prev => {
+            const str = prev;
+            const re = /\+|-|\*|\//;
+            const operator = str.match(re);
+            const arr = str.split(re);
+            const arrNumber = arr.map(num => Number(num));
+            return calculate(operator.shift(), arrNumber);
+          });
+          break;
+        }
+
+        default: {
+          setText(prev => {
+            if (prev === 0) return action.target;
+            return prev + action.target;
+          });
+        }
       }
-    },
-    [operator, x, y]
-  );
-
-  const handleReset = useCallback(() => {
-    setX(0);
-    setY(0);
-    setOperator("");
-  }, []);
-
-  const handleResult = useCallback(() => {
-    let result;
-    console.log("handleResult");
-    switch (operator) {
-      case "+":
-        result = add(x, y);
-        break;
-      case "-":
-        result = subtract(x, y);
-        break;
-      case "*":
-        result = mutiply(x, y);
-        break;
-      case "/":
-        result = divide(x, y);
-        break;
-      default:
-        result = x + y;
-        break;
     }
+  }, [action]);
 
-    handleReset();
-    setResult(result);
-  }, [handleReset, operator, x, y]);
+  return { text, setAction };
+};
 
-  useEffect(() => {
-    if (x) {
-      setText(x);
-    }
-  }, [x]);
+const HandleContext = ({ children }) => {
+  // const [text, setText] = useState(0);
+  // const [action, setAction] = useState({ type: "", target: "" });
 
-  useEffect(() => {
-    if (operator) {
-      setText(prevText => setText(String(prevText) + operator));
-    }
-  }, [operator]);
+  // useEffect(() => {
+  //   if (action.type) {
+  //     switch (action.type) {
+  //       case "reset": {
+  //         setText(0);
+  //         break;
+  //       }
 
-  useEffect(() => {
-    if (y) {
-      setText(prevText => setText(prevText + String(y)));
-    }
-  }, [y]);
+  //       case "=": {
+  //         setText(prev => {
+  //           const str = prev;
+  //           const re = /\+|-|\*|\//;
+  //           const operator = str.match(re);
+  //           const arr = str.split(re);
+  //           const arrNumber = arr.map(num => Number(num));
+  //           return calculate(operator.shift(), arrNumber);
+  //         });
+  //         break;
+  //       }
 
-  useEffect(() => {
-    if (result) {
-      console.log("effect result");
-      setText(result);
-    }
-  }, [result]);
+  //       default: {
+  //         setText(prev => {
+  //           if (prev === 0) return action.target;
+  //           return prev + action.target;
+  //         });
+  //       }
+  //     }
+  //   }
+  // }, [action]);
 
+  const { text, setAction } = useEffectText();
+
+  console.log("render Context");
   const contextMemo = React.useMemo(() => {
     return (
       <Context.Provider
         value={{
           text,
-          handleOperator,
-          handleSetNum,
-          handleReset,
-          handleResult
+          setAction
         }}
       >
         {children}
       </Context.Provider>
     );
-  }, [children, handleOperator, handleReset, handleResult, handleSetNum, text]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
 
-  console.log("render Context");
   return contextMemo;
 };
 

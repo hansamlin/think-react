@@ -16,44 +16,21 @@ const Div = styled.div`
   border-left: 0 solid #000000;
 `;
 
-const Block = ({ children }) => {
-  const {
-    handleOperator,
-    handleSetNum,
-    handleReset,
-    handleResult
-  } = useContext(Context);
-
-  let handle;
-
-  switch (children) {
-    case "C":
-      handle = handleReset;
-      break;
-    case "+":
-      handle = handleOperator;
-      break;
-    case "-":
-      handle = handleOperator;
-      break;
-    case "*":
-      handle = handleOperator;
-      break;
-    case "/":
-      handle = handleOperator;
-      break;
-    case "=":
-      handle = handleResult;
-      break;
-    default:
-      handle = handleSetNum;
-      break;
-  }
+const Block = ({ value }) => {
+  const { setAction } = useContext(Context);
 
   const memoDiv = React.useMemo(() => {
     console.log("render Block");
-    return <Div onClick={handle}>{children}</Div>;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return (
+      <Div
+        onClick={e =>
+          setAction({ type: value.type, target: e.target.innerHTML })
+        }
+      >
+        {value.str}
+      </Div>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return memoDiv;
