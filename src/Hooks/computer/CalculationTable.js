@@ -9,11 +9,16 @@ const CalculationTable = () => {
     ["C", 0, "=", "+"]
   ];
   console.log("render Calcution");
-  return block.map(item => {
-    return item.map((block, index) => {
-      return <Block key={index}>{block}</Block>;
-    });
-  });
+
+  return React.useMemo(
+    () =>
+      block.map(item => {
+        return item.map((block, index) => {
+          return <Block key={index}>{block}</Block>;
+        });
+      }),
+    [block]
+  );
 };
 
 export default CalculationTable;

@@ -49,8 +49,13 @@ const Block = ({ children }) => {
       handle = handleSetNum;
       break;
   }
+
+  const memoDiv = React.useMemo(() => {
+    return <Div onClick={handle}>{children}</Div>;
+  }, [children, handle]);
+
   console.log("render Block");
-  return <Div onClick={handle}>{children}</Div>;
+  return memoDiv;
 };
 
 export default Block;

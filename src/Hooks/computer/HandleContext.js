@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import eq from "lodash/eq";
 import add from "lodash/add";
 import subtract from "lodash/subtract";
@@ -12,38 +12,41 @@ const HandleContext = ({ children }) => {
   const [y, setY] = useState(0);
   const [operator, setOperator] = useState("");
   const [result, setResult] = useState(0);
-  console.log(text);
-  const handleOperator = e => {
+
+  const handleOperator = useCallback(e => {
     setOperator(e.target.innerHTML);
     console.log("handleOperator");
-  };
+  }, []);
 
-  const handleSetNum = e => {
-    const value = parseInt(e.target.innerHTML);
-    console.log("handleSetNum");
-    const setNum = num => {
-      if (value === 0) {
-        return num * 10;
+  const handleSetNum = useCallback(
+    e => {
+      const value = parseInt(e.target.innerHTML);
+      console.log("handleSetNum");
+      const setNum = num => {
+        if (value === 0) {
+          return num * 10;
+        }
+        return num * 10 + value;
+      };
+
+      if (eq(operator.length, 0)) {
+        const newX = setNum(x);
+        setX(newX);
+      } else {
+        const newY = setNum(y);
+        setY(newY);
       }
-      return num * 10 + value;
-    };
+    },
+    [operator, x, y]
+  );
 
-    if (eq(operator.length, 0)) {
-      const newX = setNum(x);
-      setX(newX);
-    } else {
-      const newY = setNum(y);
-      setY(newY);
-    }
-  };
-
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setX(0);
     setY(0);
     setOperator("");
-  };
+  }, []);
 
-  const handleResult = () => {
+  const handleResult = useCallback(() => {
     let result;
     console.log("handleResult");
     switch (operator) {
@@ -66,7 +69,7 @@ const HandleContext = ({ children }) => {
 
     handleReset();
     setResult(result);
-  };
+  }, [handleReset, operator, x, y]);
 
   useEffect(() => {
     if (x) {
@@ -93,20 +96,24 @@ const HandleContext = ({ children }) => {
     }
   }, [result]);
 
+  const contextMemo = React.useMemo(() => {
+    return (
+      <Context.Provider
+        value={{
+          text,
+          handleOperator,
+          handleSetNum,
+          handleReset,
+          handleResult
+        }}
+      >
+        {children}
+      </Context.Provider>
+    );
+  }, [children, handleOperator, handleReset, handleResult, handleSetNum, text]);
+
   console.log("render Context");
-  return (
-    <Context.Provider
-      value={{
-        text,
-        handleOperator,
-        handleSetNum,
-        handleReset,
-        handleResult
-      }}
-    >
-      {children}
-    </Context.Provider>
-  );
+  return contextMemo;
 };
 
 export default HandleContext;
