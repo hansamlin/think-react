@@ -28,18 +28,16 @@ const CalculationTable = () => {
       { str: "+", type: "text" }
     ]
   ];
-  console.log("render Calcution");
 
-  return React.useMemo(
-    () =>
-      block.map(item => {
-        return item.map((block, index) => {
-          return <Block key={index} value={block} />;
-        });
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  return React.useMemo(() => {
+    console.log("render Calcution");
+    return block.map(item => {
+      return item.map((block, index) => {
+        return <Block key={index} value={block} />;
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export default CalculationTable;
