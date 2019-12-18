@@ -53,6 +53,7 @@ const Block = ({ children }) => {
   const memoDiv = React.useMemo(() => {
     console.log("render Block");
     return <Div onClick={handle}>{children}</Div>;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return memoDiv;

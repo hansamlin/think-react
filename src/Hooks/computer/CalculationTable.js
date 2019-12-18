@@ -16,7 +16,9 @@ const CalculationTable = () => {
         return item.map((block, index) => {
           return <Block key={index}>{block}</Block>;
         });
-      }),[]
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 };
 
