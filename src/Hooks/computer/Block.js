@@ -51,10 +51,10 @@ const Block = ({ children }) => {
   }
 
   const memoDiv = React.useMemo(() => {
+    console.log("render Block");
     return <Div onClick={handle}>{children}</Div>;
-  }, [children, handle]);
+  }, []);
 
-  console.log("render Block");
   return memoDiv;
 };
 

@@ -16,8 +16,7 @@ const CalculationTable = () => {
         return item.map((block, index) => {
           return <Block key={index}>{block}</Block>;
         });
-      }),
-    [block]
+      }),[]
   );
 };
 
