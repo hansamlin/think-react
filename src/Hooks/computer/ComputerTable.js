@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Body = styled.div`
-  width: 80vw;
+  // width: 80vw;
   margin: auto;
 `;
 
