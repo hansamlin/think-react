@@ -18,7 +18,7 @@
   "Import React": {
     "scope": "javascript,typescript",
     "prefix": "react.import",
-    "body": ["import React from 'react';", "$2"],
+    "body": ["import React from 'react';"],
     "description": "import React"
   },
 
