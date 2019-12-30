@@ -1,31 +1,22 @@
 import React from "react";
 import "./index.css";
 
-// const lines = [
-//   [0, 1, 2],
-//   [3, 4, 5],
-//   [6, 7, 8],
-//   [0, 3, 6],
-//   [1, 4, 7],
-//   [2, 5, 8],
-//   [0, 4, 8],
-//   [2, 4, 6]
-// ];
+const lines = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+];
 
 class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
-  }
-
   render() {
     return (
       <button className="square" onClick={this.props.onClick}>
-        {null}
+        {this.props.player}
       </button>
     );
   }
@@ -34,35 +25,69 @@ class Square extends React.Component {
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { player: "X", record: [] };
+    this.state = { player: "X", record: [], winner: "" };
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(i) {
-    console.log(i);
-    this.setState({
-      ...this.state,
-      player: this.state.player === "X" ? "O" : "X",
-      record: [{ num: i, player: this.state.player }]
-    });
+    if (!this.state.winner) {
+      const record = this.state.record;
+      const isRepeat = record.find(item => item.num === i);
+
+      if (!isRepeat) {
+        record.push({ num: i, player: this.state.player });
+
+        const player = record
+          .filter(item => item.player === this.state.player)
+          .map(item => item.num);
+
+        let isWinner = false;
+        if (player.length >= 3) {
+          lines.every(line => {
+            let i = 0;
+            if (isWinner) {
+              return false;
+            }
+            line.every(num => {
+              if (player.indexOf(num) === -1) {
+                return false;
+              } else {
+                i++;
+              }
+              if (i === 3) {
+                isWinner = true;
+              }
+              return true;
+            });
+            return true;
+          });
+        }
+
+        this.setState({
+          player: this.state.player === "X" ? "O" : "X",
+          record,
+          winner: isWinner ? this.state.player : ""
+        });
+      }
+    }
   }
 
   renderSquare(i) {
+    const item = this.state.record.find(item => item.num === i);
+
     return (
       <Square
         value={i}
-        player={this.state}
+        state={this.state}
+        player={item && i === item.num && item.player}
         onClick={() => this.handleClick(i)}
       />
     );
   }
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
-
   render() {
-    const status = `Next player: ${this.state.player}`;
+    const text = this.state.winner ? "Winner" : "Next player";
+    const status = `${text}: ${this.state.player}`;
 
     return (
       <div>
