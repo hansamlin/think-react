@@ -27,6 +27,30 @@ class Board extends React.Component {
     super(props);
     this.state = { player: "X", record: [], winner: "" };
     this.handleClick = this.handleClick.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+  }
+
+  calculate(isWinner, player) {
+    lines.every(line => {
+      let i = 0;
+      if (isWinner) {
+        return false;
+      }
+      line.every(num => {
+        if (player.indexOf(num) === -1) {
+          return false;
+        } else {
+          i++;
+        }
+        if (i === 3) {
+          isWinner = true;
+        }
+        return true;
+      });
+      return true;
+    });
+
+    return isWinner;
   }
 
   handleClick(i) {
@@ -43,24 +67,7 @@ class Board extends React.Component {
 
         let isWinner = false;
         if (player.length >= 3) {
-          lines.every(line => {
-            let i = 0;
-            if (isWinner) {
-              return false;
-            }
-            line.every(num => {
-              if (player.indexOf(num) === -1) {
-                return false;
-              } else {
-                i++;
-              }
-              if (i === 3) {
-                isWinner = true;
-              }
-              return true;
-            });
-            return true;
-          });
+          isWinner = this.calculate(isWinner, player);
         }
 
         this.setState({
@@ -85,29 +92,36 @@ class Board extends React.Component {
     );
   }
 
+  handleReset() {
+    this.setState({ player: "X", record: [], winner: "" });
+  }
+
   render() {
     const text = this.state.winner ? "Winner" : "Next player";
     const status = `${text}: ${this.state.player}`;
 
     return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+      <>
+        <div>
+          <div className="status">{status}</div>
+          <div className="board-row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
+        <button onClick={this.handleReset}>重玩</button>
+      </>
     );
   }
 }
