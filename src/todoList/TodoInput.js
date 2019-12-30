@@ -1,4 +1,12 @@
 import React from "react";
+import styled from "styled-components";
+
+const Input = styled.input`
+  padding: 0.5em;
+  border-radius: 20px;
+  border: 1px solid black;
+  display: inline-block;
+`;
 
 export default function TodoInput({ onHandleOnChange, value }) {
   function handleChange(e) {
@@ -6,7 +14,7 @@ export default function TodoInput({ onHandleOnChange, value }) {
   }
 
   return (
-    <input
+    <Input
       type="text"
       placeholder="Add todo..."
       onChange={handleChange}
@@ -14,27 +22,3 @@ export default function TodoInput({ onHandleOnChange, value }) {
     />
   );
 }
-
-// class TodoInput extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.handleChange = this.handleChange.bind(this);
-//   }
-
-//   handleChange(e) {
-//     this.props.handleOnChange(e);
-//   }
-
-//   render() {
-//     return (
-//       <input
-//         type="text"
-//         placeholder="Add todo..."
-//         onChange={this.handleChange}
-//         value={this.props.value}
-//       />
-//     );
-//   }
-// }
-
-// export default TodoInput;

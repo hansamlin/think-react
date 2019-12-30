@@ -4,7 +4,7 @@ import "../fetch/img.scss";
 
 export default function Girl() {
   const [img, setImg] = useState([]);
-  const [num, setNum] = useState(1);
+  const [num, setNum] = useState('');
   const [url, setUrl] = useState(
     "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/4/1"
   );

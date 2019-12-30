@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import TodoInput from "./TodoInput";
-import "./todo.scss";
+import styled from "styled-components";
+
+const Button = styled.button`
+  border-radius: 20px;
+  border: 1px;
+  color: white;
+  background-color: black;
+  padding: 0.5em;
+  display: inline-block;
+`;
+
+const Li = styled.li`
+  list-style: none;
+`;
 
 function Row({ value, index, onHandleComplete, isComplete, onHandleDelete }) {
   const handleComplete = () => onHandleComplete(index);
   const handleDelete = () => onHandleDelete(index);
-  // console.log(isComplete)
+
   return (
-    <li style={{ textDecoration: isComplete ? "line-through" : "" }}>
+    <Li style={{ textDecoration: isComplete ? "line-through" : "" }}>
       {value}
-      <button onClick={handleComplete}>Complete</button>
-      <button onClick={handleDelete}>X</button>
-    </li>
+      <Button onClick={handleComplete}>Complete</Button>
+      <Button onClick={handleDelete}>X</Button>
+    </Li>
   );
 }
 
@@ -47,7 +60,7 @@ export default function Todo() {
     <>
       <React.StrictMode>
         <TodoInput onHandleOnChange={handleChange} value={value} />
-        <button onClick={handleClick}>Add</button>
+        <Button onClick={handleClick}>Add</Button>
         <ul>
           {list.map((item, index) => {
             return (
@@ -66,48 +79,3 @@ export default function Todo() {
     </>
   );
 }
-
-// class Todo extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { inputValue: "", list: [] };
-
-//     this.handleChange = this.handleChange.bind(this);
-//     this.handleClick = this.handleClick.bind(this);
-//   }
-
-//   componentDidMount() {
-//     document.title = "Todo List";
-//   }
-
-//   handleChange(e) {
-//     this.setState({ inputValue: e.target.value });
-//   }
-
-//   handleClick() {
-//     let value = this.state.inputValue;
-//     let list = this.state.list;
-
-//     if (value) {
-//       list.push(<li key={value}>{value}</li>);
-//       this.setState({ list, inputValue: "" });
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <>
-//         <React.StrictMode>
-//           <TodoInput
-//             handleOnChange={this.handleChange}
-//             value={this.state.inputValue}
-//           />
-//           <button onClick={this.handleClick}>Add</button>
-//           <ul>{this.state.list}</ul>
-//         </React.StrictMode>
-//       </>
-//     );
-//   }
-// }
-
-// export default Todo;

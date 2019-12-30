@@ -16,50 +16,25 @@ class SearchBar extends Component {
   }
 
   render() {
-    return React.createElement(
-      React.Fragment,
-      null,
-      React.createElement("input", {
-        type: "text",
-        placeholder: "Seatch...",
-        onChange: this.props.checked,
-        value: this.props.text
-      }),
-      React.createElement(
-        "label",
-        null,
-        React.createElement("input", {
-          type: "checkbox",
-          className: "inline",
-          checked: this.props.checked,
-          onChange: this.handleCheckBoxChange
-        }),
-        React.createElement(
-          "span",
-          { className: "inline" },
-          "Only show products in stock"
-        )
-      )
+    return (
+      <>
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={this.handleInputChange}
+          value={this.props.text}
+        />
+        <label>
+          <input
+            type="checkbox"
+            className="inline"
+            checked={this.props.checked}
+            onChange={this.handleCheckBoxChange}
+          />
+          <span className="inline">Only show products in stock</span>
+        </label>
+      </>
     );
-    // (
-    //   <>
-    //     <input
-    //       type="text"
-    //       placeholder="Search..."
-    //       onChange={this.handleInputChange}
-    //       value={this.props.text}
-    //     />
-    //     <label>
-    //       <input
-    //         type="checkbox"
-    //         className="inline"
-    //         checked={this.props.checked}
-    //         onChange={this.handleCheckBoxChange}
-    //       />
-    //       <span className="inline">Only show products in stock</span>
-    //     </label>
-    //   </>
-    // );
   }
 }
 
