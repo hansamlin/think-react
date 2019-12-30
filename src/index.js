@@ -2,7 +2,7 @@ import "core-js/es/map";
 import React from "react";
 import ReactDOM from "react-dom";
 // import './index.css';
-import "./index.scss";
+// import "./index.scss";
 // import App from './App';
 // import FilterableProductTable from './example/FilterableProductTable';
 // import App from './context-api/context';
@@ -14,10 +14,11 @@ import "./index.scss";
 // import Girl from "./fetch/Girl";
 // import Girl from "./axios/Girl";
 // import Search from './rxjs/debounceTime/Search';
-import ComputerTable from "./Hooks/computer/ComputerTable";
+// import ComputerTable from "./Hooks/computer/ComputerTable";
+import Game from "./startercode/index";
 import * as serviceWorker from "./serviceWorker";
 
-ReactDOM.render(<ComputerTable />, document.getElementById("root"));
+ReactDOM.render(<Game />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
