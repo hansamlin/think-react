@@ -71,6 +71,9 @@ function App() {
         <li>
           <Link to="/todolistref">TodolistRef</Link>
         </li>
+        <li>
+          <Link to="/calendar">Calendar</Link>
+        </li>
       </ul>
 
       <Switch>
